@@ -1,5 +1,6 @@
 import React, { createContext, useState } from "react";
 import { linkData } from "./linkData";
+import { socialData } from "./socialData";
 
 const ProductContext = createContext();
 
@@ -9,6 +10,7 @@ const ProductProvider = ({ children }) => {
   const [isSidecartOpen, setIsSidecartOpen] = useState(false);
   const [cartItems, setCartItems] = useState(12);
   const [links, setLinks] = useState(linkData);
+  const [socialLinks, setSocialLinks] = useState(socialData);
   const [cart, setCart] = useState([]);
 
   // func
@@ -39,6 +41,7 @@ const ProductProvider = ({ children }) => {
         isSidecartOpen,
         cartItems,
         links,
+        socialLinks,
         toggleSidebar,
         toggleSidecart,
         openCart,

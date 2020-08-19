@@ -35,6 +35,7 @@ const SideWrapper = styled.nav`
   border-right: 3px solid var(--primaryColor);
   transition: var(--mainTransition);
   transform: ${(prop) => (prop.show ? "translateX(0)" : "translateX(-100%)")};
+  z-index: 1;
 
   ul {
     list-style: none;

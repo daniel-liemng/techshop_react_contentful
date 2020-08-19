@@ -6,7 +6,7 @@ const Hero = ({ title, image, max, children }) => {
   return (
     <HeroWrapper max={max} img={image}>
       <div className='banner'>
-        <h1 className='title'>{title || "homepage"}</h1>
+        <h1 className='title'>{title}</h1>
         {children}
       </div>
     </HeroWrapper>

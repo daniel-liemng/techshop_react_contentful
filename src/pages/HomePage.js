@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 import { ProductContext } from "../context/context";
 import Hero from "../components/Hero";
+import Services from "../components/HomePage/Services";
+import Featured from "../components/HomePage/Featured";
 
 const HomePage = () => {
   const data = useContext(ProductContext);
@@ -14,6 +16,8 @@ const HomePage = () => {
           our products
         </Link>
       </Hero>
+      <Services />
+      <Featured />
     </>
   );
 };
