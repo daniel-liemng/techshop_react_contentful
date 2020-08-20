@@ -8,7 +8,7 @@ const ProductContext = createContext();
 const ProductProvider = ({ children }) => {
   // state
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isSidecartOpen, setIsSidecartOpen] = useState(false);
+  const [isSidecartOpen, setIsSidecartOpen] = useState(true);
   const [links, setLinks] = useState(linkData);
   const [socialLinks, setSocialLinks] = useState(socialData);
   // products
@@ -23,19 +23,20 @@ const ProductProvider = ({ children }) => {
   const [singleProducts, setSingleProducts] = useState({});
   const [loading, setLoading] = useState(true);
 
-  // useEffect
+  // useEffect for PRODUCT
   useEffect(() => {
     // fetch products from Contentful
 
     setProducts(items);
   }, []);
 
+  // useEffect for CART
   useEffect(() => {
     addTotals();
     syncLocalStorage();
   }, [cart]);
 
-  // func for Products
+  ///////// START - PRODUCTS FUNCTIONALITY
   // format the Contentful products data and set Data
   const setProducts = (products) => {
     // all products
@@ -95,6 +96,7 @@ const ProductProvider = ({ children }) => {
 
     return { cartItems, subTotal, tax, total };
   };
+
   // add totals
   const addTotals = () => {
     const totals = getTotals();
@@ -146,8 +148,29 @@ const ProductProvider = ({ children }) => {
     setSingleProducts({ ...product });
     setLoading(false);
   };
+  ///////// END - PRODUCTS FUNCTIONALITY
 
-  // func for navabr
+  ///////// START - CART FUNCTIONALITY
+  // increment
+  const increment = (id) => {
+    console.log("increase", id);
+  };
+
+  // decrement
+  const decrement = (id) => {
+    console.log("decrease", id);
+  };
+
+  // remove Item
+  const removeItem = (id) => {
+    console.log("remove", id);
+  };
+
+  // clearCart
+  const clearCart = () => {};
+  ///////// END - CART FUNCTIONALITY
+
+  ///////// START - NAVBAR/SIDEBAR FUNCTIONALITY
   // toggle sidebar
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -167,6 +190,7 @@ const ProductProvider = ({ children }) => {
   const closeCart = () => {
     setIsSidecartOpen(false);
   };
+  ///////// END - NAVBAR/SIDEBAR FUNCTIONALITY
 
   return (
     <ProductContext.Provider
@@ -178,12 +202,20 @@ const ProductProvider = ({ children }) => {
         socialLinks,
         featuredProducts,
         filteredProducts,
+        singleProducts,
+        cart,
+        cartTotal,
+        loading,
         toggleSidebar,
         toggleSidecart,
         openCart,
         closeCart,
         addToCart,
         setSingleProduct,
+        increment,
+        decrement,
+        removeItem,
+        clearCart,
       }}
     >
       {children}
