@@ -50,7 +50,11 @@ const ProductFilter = () => {
               className='filter-item'
             >
               {companies.map((company, i) => (
-                <option key={i} value={company}>
+                <option
+                  key={i}
+                  value={company}
+                  style={{ textTransform: "capitalize" }}
+                >
                   {company}
                 </option>
               ))}

@@ -1,7 +1,8 @@
 import React, { createContext, useState, useEffect } from "react";
 import { linkData } from "./linkData";
 import { socialData } from "./socialData";
-import { items } from "./productData";
+// import { items } from "./productData";
+import { client } from "./contentful";
 
 const ProductContext = createContext();
 
@@ -23,13 +24,6 @@ const ProductProvider = ({ children }) => {
   const [singleProducts, setSingleProducts] = useState({});
   const [loading, setLoading] = useState(true);
   // filter
-  // const [search, setSearch] = useState("");
-  // const [price, setPrice] = useState(0);
-  // const [min, setMin] = useState(0);
-  // const [max, setMax] = useState(0);
-  // const [company, setCompany] = useState("all");
-  // const [shipping, setShipping] = useState(false);
-
   const [filters, setFilters] = useState({
     search: "",
     company: "all",
@@ -41,9 +35,13 @@ const ProductProvider = ({ children }) => {
 
   // useEffect for PRODUCT
   useEffect(() => {
-    // fetch products from Contentful
+    // setProducts(items);
 
-    setProducts(items);
+    // fetch products from Contentful
+    client
+      .getEntries({ content_type: "techShopProducts" })
+      .then((res) => setProducts(res.items))
+      .catch(console.error);
   }, []);
 
   // useEffect for CART
