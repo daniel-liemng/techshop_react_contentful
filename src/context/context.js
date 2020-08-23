@@ -8,7 +8,7 @@ const ProductContext = createContext();
 const ProductProvider = ({ children }) => {
   // state
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isSidecartOpen, setIsSidecartOpen] = useState(true);
+  const [isSidecartOpen, setIsSidecartOpen] = useState(false);
   const [links, setLinks] = useState(linkData);
   const [socialLinks, setSocialLinks] = useState(socialData);
   // products
@@ -167,7 +167,9 @@ const ProductProvider = ({ children }) => {
   };
 
   // clearCart
-  const clearCart = () => {};
+  const clearCart = () => {
+    setCart([]);
+  };
   ///////// END - CART FUNCTIONALITY
 
   ///////// START - NAVBAR/SIDEBAR FUNCTIONALITY
@@ -205,6 +207,8 @@ const ProductProvider = ({ children }) => {
         singleProducts,
         cart,
         cartTotal,
+        cartSubTotal,
+        cartTax,
         loading,
         toggleSidebar,
         toggleSidecart,
