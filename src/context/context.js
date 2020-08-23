@@ -153,7 +153,13 @@ const ProductProvider = ({ children }) => {
   ///////// START - CART FUNCTIONALITY
   // increment
   const increment = (id) => {
-    console.log("increase", id);
+    let tempCart = [...cart];
+    const cartItem = tempCart.find((item) => item.id === id);
+    cartItem.count++;
+    cartItem.total = cartItem.price * cartItem.count;
+    cartItem.total = parseFloat(cartItem.total.toFixed(2));
+    // console.log(cartItem);
+    setCart(tempCart);
   };
 
   // decrement
