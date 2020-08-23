@@ -158,18 +158,32 @@ const ProductProvider = ({ children }) => {
     cartItem.count++;
     cartItem.total = cartItem.price * cartItem.count;
     cartItem.total = parseFloat(cartItem.total.toFixed(2));
-    // console.log(cartItem);
+
     setCart(tempCart);
   };
 
   // decrement
   const decrement = (id) => {
-    console.log("decrease", id);
+    let tempCart = [...cart];
+    const cartItem = tempCart.find((item) => item.id === id);
+    if (cartItem.count > 1) {
+      cartItem.count--;
+      cartItem.total = cartItem.price * cartItem.count;
+      cartItem.total = parseFloat(cartItem.total.toFixed(2));
+    } else {
+      // remove
+      tempCart = tempCart.filter((item) => item.id !== id);
+    }
+
+    setCart(tempCart);
   };
 
   // remove Item
   const removeItem = (id) => {
-    console.log("remove", id);
+    let tempCart = [...cart];
+    tempCart = tempCart.filter((item) => item.id !== id);
+
+    setCart(tempCart);
   };
 
   // clearCart
