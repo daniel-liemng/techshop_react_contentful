@@ -22,6 +22,22 @@ const ProductProvider = ({ children }) => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [singleProducts, setSingleProducts] = useState({});
   const [loading, setLoading] = useState(true);
+  // filter
+  // const [search, setSearch] = useState("");
+  // const [price, setPrice] = useState(0);
+  // const [min, setMin] = useState(0);
+  // const [max, setMax] = useState(0);
+  // const [company, setCompany] = useState("all");
+  // const [shipping, setShipping] = useState(false);
+
+  const [filters, setFilters] = useState({
+    search: "",
+    company: "all",
+    price: 0,
+    min: 0,
+    max: 0,
+    shipping: false,
+  });
 
   // useEffect for PRODUCT
   useEffect(() => {
@@ -35,6 +51,11 @@ const ProductProvider = ({ children }) => {
     addTotals();
     syncLocalStorage();
   }, [cart]);
+
+  // useEffect for FILTER
+  useEffect(() => {
+    sortData();
+  }, [filters]);
 
   ///////// START - PRODUCTS FUNCTIONALITY
   // format the Contentful products data and set Data
@@ -52,12 +73,16 @@ const ProductProvider = ({ children }) => {
       (item) => item.featured === true
     );
 
+    // get Max price
+    let maxPrice = Math.max(...storeProducts.map((item) => item.price));
+
     setStoreProducts(storeProducts);
     setFilteredProducts(storeProducts);
     setFeaturedProducts(featuredProducts);
     setSingleProducts(getStorageProduct());
     setCart(getLocalStorageCart());
     setLoading(false);
+    setFilters({ ...filters, price: maxPrice, max: maxPrice });
   };
 
   // get single product from localStorage
@@ -214,6 +239,61 @@ const ProductProvider = ({ children }) => {
   };
   ///////// END - NAVBAR/SIDEBAR FUNCTIONALITY
 
+  ///////// START - FILTERING FUNCTIONALITY
+  // 1. Handle change
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const type = e.target.type;
+    const value = e.target.value;
+
+    // console.log(name, type, value);
+
+    let filterValue;
+    if (type === "checkbox") {
+      filterValue = e.target.checked;
+    } else {
+      filterValue = value;
+    }
+
+    setFilters({ ...filters, [name]: filterValue });
+  };
+
+  // 2. Handle filtering
+  const sortData = () => {
+    const { search, company, price, shipping } = filters;
+    let tempPrice = parseInt(price);
+
+    let tempProducts = [...storeProducts];
+
+    // filtering based on price
+    tempProducts = tempProducts.filter((item) => item.price <= tempPrice);
+
+    // filtering based on company
+    if (company !== "all") {
+      tempProducts = tempProducts.filter((item) => item.company === company);
+    }
+
+    // filtering based on shipping
+    if (shipping) {
+      tempProducts = tempProducts.filter((item) => item.freeShipping === true);
+    }
+
+    // filtering based on title
+    if (search.length > 0) {
+      tempProducts = tempProducts.filter((item) => {
+        let tempSearch = search.toLowerCase();
+        let tempTitle = item.title.toLowerCase().slice(0, search.length);
+
+        if (tempSearch === tempTitle) {
+          return item;
+        }
+      });
+    }
+
+    setFilteredProducts(tempProducts);
+  };
+  ///////// END - FILTERING FUNCTIONALITY
+
   return (
     <ProductContext.Provider
       value={{
@@ -222,6 +302,7 @@ const ProductProvider = ({ children }) => {
         cartItems,
         links,
         socialLinks,
+        storeProducts,
         featuredProducts,
         filteredProducts,
         singleProducts,
@@ -230,6 +311,7 @@ const ProductProvider = ({ children }) => {
         cartSubTotal,
         cartTax,
         loading,
+        filters,
         toggleSidebar,
         toggleSidecart,
         openCart,
@@ -240,6 +322,7 @@ const ProductProvider = ({ children }) => {
         decrement,
         removeItem,
         clearCart,
+        handleChange,
       }}
     >
       {children}
