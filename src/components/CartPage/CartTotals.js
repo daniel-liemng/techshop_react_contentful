@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { ProductContext } from "../../context/context";
 import PayPalBtn from "./PayPalBtn";
 
-const CartTotals = () => {
+const CartTotals = ({ history }) => {
   const { cartSubTotal, cartTax, cartTotal, clearCart, cart } = useContext(
     ProductContext
   );
@@ -22,7 +22,11 @@ const CartTotals = () => {
             <h3>subtotal: ${cartSubTotal}</h3>
             <h3>tax: ${cartTax}</h3>
             <h3>total: ${cartTotal}</h3>
-            <PayPalBtn cartTotal={cartTotal} clearCart={clearCart} />
+            <PayPalBtn
+              cartTotal={cartTotal}
+              clearCart={clearCart}
+              history={history}
+            />
           </div>
         </div>
       </div>
