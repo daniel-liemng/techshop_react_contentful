@@ -5,10 +5,8 @@ import App from "./App";
 import { ProductProvider } from "./context/context";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ProductProvider>
-      <App />
-    </ProductProvider>
-  </React.StrictMode>,
+  <ProductProvider>
+    <App />
+  </ProductProvider>,
   document.getElementById("root")
 );
